@@ -11,11 +11,8 @@ Visit http://localhost:8080/graphql
 example requests:
 
 ```
-query getAll {
-  books{
-    title
-    author
-  }
+query getMessage {
+  message
 }
 
 mutation print {

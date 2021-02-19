@@ -3,22 +3,15 @@ const { graphqlHTTP } = require('express-graphql');
 const { buildSchema } = require('graphql');
 const cors = require('cors');
 
-// Create a server:
 const app = express();
 
 const printMessage = (message) => {
     console.log('Got message: ' + message);
 }
 
-// Create a schema and a root resolver:
 const schema = buildSchema(`
-    type Book {
-        title: String!
-        author: String!
-    }
-
     type Query {
-        books: [Book]
+        message: String
     }
 
     type Mutation {
@@ -27,16 +20,7 @@ const schema = buildSchema(`
 `);
 
 const rootValue = {
-    books: [
-        {
-            title: "The Name of the Wind",
-            author: "Patrick Rothfuss",
-        },
-        {
-            title: "The Wise Man's Fear",
-            author: "Patrick Rothfuss",
-        }
-    ],
+    message: 'hello world',
     printMessage: ({ message }) => {
         printMessage(message);
         return 'OK';
@@ -49,12 +33,10 @@ app.use((req, res, next) => {
     next();
 })
 
-// Use those to handle incoming requests:
 app.use(graphqlHTTP({
     schema,
     rootValue,
     graphiql: true,
 }));
 
-// Start the server:
 app.listen(8080, () => console.log("Server started on port 8080"));
